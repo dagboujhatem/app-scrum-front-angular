@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { SigninInfo } from './models/signin-info';
 import { SignUpInfo } from './models/signup-info';
+import * as jwt_decode from 'jwt-decode';
 
 
 const httpOptions = {
   headers: new HttpHeaders({ 'content-type': 'application/json' })
 };
-
 const TOKEN_KEY = 'AuthToken';
 const TOKEN = 'token';
 
@@ -18,7 +18,6 @@ const TOKEN = 'token';
   providedIn: 'root'
 })
 export class AuthService {
-
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
@@ -44,5 +43,16 @@ export class AuthService {
   loggedIn() {
     return sessionStorage.getItem(TOKEN);
   }
+
+  uploadImage(file){ 
+  const req = new HttpRequest('POST', 'http://localhost:9000/api/auth/upload-image', file, {
+    reportProgress: true,
+    responseType: 'text',
+  });
+  return this.http.request(req);}
+
+
+    
+      
 }
 

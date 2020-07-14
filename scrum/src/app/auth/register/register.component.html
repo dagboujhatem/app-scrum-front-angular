@@ -41,7 +41,12 @@
               </mat-error>
 
             </mat-form-field>
-
+            
+            <form [formGroup]="registerForm">
+              
+              <input type="file" (change)="handleImage($event)">
+              
+            </form>
             
            
 </mat-dialog-content>
